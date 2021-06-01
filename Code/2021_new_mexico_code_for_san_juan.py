@@ -96,7 +96,7 @@ The NMOCD operates a database which includes biweekly updated geospatial dataset
 
 # use this method as a backup method if the FTP website is down or if version on FTP is different
 !wget https://github.com/VictorBChen/2021NewMexico/blob/main/Data/NMOCD_GISData.gdb.zip?raw=true
-!unzip /content/NMOCD_GISData.gdb.zip
+!unzip '/content/NMOCD_GISData.gdb.zip?raw=true'
 
 # Parse feature class from gdb
 df_wells = gpd.read_file('/content/NMOCD_GISData.gdb')
@@ -461,7 +461,7 @@ coords = DecadeWell_gas[['latitude', 'longitude']].values
 
 #DBSCAN requires two inputs other than data: minimum number of samples per cluster and the distance to associate points
 kms_per_radian = 6371.0088
-epsilon = 0.4 / kms_per_radian
+epsilon = 0.2 / kms_per_radian
 db = DBSCAN(eps=epsilon, min_samples=1, algorithm='ball_tree', metric='haversine').fit(np.radians(coords))
 cluster_labels = db.labels_
 num_clusters = len(set(cluster_labels))
@@ -507,7 +507,6 @@ ax.legend(loc= 'lower left', prop = {'size':15})
 plt.show()
 
 clusteredwellsDF = pd.DataFrame(rs)
-clusteredwellsDF.to_csv('clusteredwellsdf.csv')
 
 #Empty column to store values
 DecadeWell_gas['Cluster'] = np.nan
@@ -730,7 +729,7 @@ coords = DecadeWell_oil[['latitude', 'longitude']].values
 
 #DBSCAN requires two inputs other than data: minimum number of samples per cluster and the distance to associate points
 kms_per_radian = 6371.0088
-epsilon = 0.4 / kms_per_radian
+epsilon = 0.2 / kms_per_radian
 db = DBSCAN(eps=epsilon, min_samples=1, algorithm='ball_tree', metric='haversine').fit(np.radians(coords))
 cluster_labels = db.labels_
 num_clusters = len(set(cluster_labels))
